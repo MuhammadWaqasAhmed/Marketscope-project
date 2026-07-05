@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Connect accounts · MarketScope Creators</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<style>
+  body{padding:36px;max-width:1180px;margin:0 auto;}
+  .header-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;flex-wrap:wrap;gap:14px;}
+  .header-row .brand{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-size:18px;font-weight:600;}
+  .header-row .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--pink);box-shadow:0 0 14px var(--pink);}
+</style>
+</head>
+<body>
+  <div class="header-row">
+    <div class="brand"><span class="dot"></span> MarketScope Creators</div>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <span style="font-size:13px;color:var(--text-dim);">{{ influencer_name }}</span>
+      <a class="btn btn-ghost" href="{{ url_for('influencer_logout') }}" style="padding:8px 14px;font-size:13px;">Log out</a>
+    </div>
+  </div>
+
+  <h1 style="font-size:24px;margin-bottom:6px;">Connect accounts &amp; automate with AI</h1>
+  <p style="color:var(--text-dim);font-size:14px;margin-bottom:26px;max-width:640px;">
+    Link a platform account, tell the AI what you want it to optimize for, and it will turn trending
+    products from your dashboard into a running content workflow.
+  </p>
+
+  <div class="connect-grid">
+    <div class="panel" style="padding:22px;">
+      <h3 style="margin-bottom:18px;font-size:15px;">New connection</h3>
+      <form method="POST">
+        <label style="display:block;font-size:12.5px;color:var(--text-dim);margin-bottom:8px;">Platform</label>
+        <div class="platform-grid">
+          <div class="platform-pick">
+            <input type="radio" id="p-tiktok" name="platform" value="TikTok" checked>
+            <label for="p-tiktok">🎵<span>TikTok</span></label>
+          </div>
+          <div class="platform-pick">
+            <input type="radio" id="p-ig" name="platform" value="Instagram">
+            <label for="p-ig">📷<span>Instagram</span></label>
+          </div>
+          <div class="platform-pick">
+            <input type="radio" id="p-yt" name="platform" value="YouTube">
+            <label for="p-yt">▶️<span>YouTube</span></label>
+          </div>
+          <div class="platform-pick">
+            <input type="radio" id="p-x" name="platform" value="X">
+            <label for="p-x">𝕏<span>X</span></label>
+          </div>
+        </div>
+
+        <div class="field" style="margin-top:16px;">
+          <label for="handle">Account handle</label>
+          <input id="handle" name="handle" type="text" placeholder="@yourhandle" required>
+        </div>
+
+        <div class="field">
+          <label for="automation_goal">What should the AI optimize for?</label>
+          <select id="automation_goal" name="automation_goal">
+            <option value="discovery">Discover trending products in my niche</option>
+            <option value="conversion">Maximize affiliate conversions</option>
+            <option value="growth">Grow followers with viral-format content</option>
+            <option value="consistency">Keep a consistent posting schedule</option>
+          </select>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="posting_frequency">Posting frequency</label>
+            <select id="posting_frequency" name="posting_frequency">
+              <option>Daily</option><option>3x / week</option><option>Weekly</option><option>Manual review only</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="ai_tone">Content tone</label>
+            <select id="ai_tone" name="ai_tone">
+              <option>Energetic &amp; punchy</option><option>Calm &amp; informative</option><option>Funny / meme-driven</option><option>Luxury &amp; aspirational</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="checkbox-row">
+          <input type="checkbox" id="auto_publish" name="auto_publish" style="width:auto;">
+          <label for="auto_publish" style="margin:0;">Let AI auto-publish drafts without my review</label>
+        </div>
+
+        <button class="btn btn-primary" type="submit" style="background:var(--pink);color:#2A0E1E;">Connect &amp; start automation</button>
+      </form>
+    </div>
+
+    <div>
+      <div class="panel" style="padding:18px 20px;margin-bottom:16px;">
+        <h3 style="font-size:14px;margin-bottom:14px;">How the automation works</h3>
+        <div style="font-size:13px;color:var(--text-dim);line-height:1.7;">
+          1. AI scans live trend data from the seller dashboard for your niche<br>
+          2. It shortlists products matching your stated goal &amp; tone<br>
+          3. Drafts captions/scripts per platform format<br>
+          4. Schedules or queues for your review, based on your settings
+        </div>
+      </div>
+
+      <div class="panel" style="padding:18px 20px;">
+        <h3 style="font-size:14px;margin-bottom:14px;">Connected accounts</h3>
+        {% if connections %}
+          {% for c in connections %}
+          <div class="connection-card">
+            <div>
+              <div style="font-size:13.5px;font-weight:600;"><span class="status-dot"></span>{{ c['platform'] }} · {{ c['handle'] }}</div>
+              <div class="pmeta">{{ c['automation_goal'] }} · {{ c['posting_frequency'] }}{% if c['auto_publish'] %} · auto-publish on{% endif %}</div>
+            </div>
+            <button class="btn btn-danger-ghost" onclick="disconnect({{ c['id'] }}, this)">Disconnect</button>
+          </div>
+          {% endfor %}
+        {% else %}
+          <div style="color:var(--text-faint);font-size:13px;">No accounts connected yet — fill out the form to add your first one.</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+<script>
+async function disconnect(id, btn){
+  btn.disabled = true; btn.textContent = "Removing...";
+  await fetch(`/api/influencer/connections/${id}/delete`, {method:"POST"});
+  btn.closest(".connection-card").remove();
+}
+</script>
+</body>
+</html>

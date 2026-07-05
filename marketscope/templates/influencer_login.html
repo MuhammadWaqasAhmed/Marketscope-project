@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Influencer Login · MarketScope</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="auth-shell influencer">
+  <div class="auth-art">
+    <div class="brand"><span class="dot"></span> MarketScope <span style="color:var(--pink);font-size:13px;font-weight:600;">/ Creators</span></div>
+    <div class="pitch">
+      <h2>Connect your accounts. Let AI run the workflow.</h2>
+      <p>Link your TikTok, Instagram, or YouTube once — MarketScope's AI matches trending products to your audience and keeps your content calendar moving automatically.</p>
+    </div>
+    <div class="ticker">
+      <span class="ticker-pill">AI product matching</span>
+      <span class="ticker-pill">Auto-scheduled posts</span>
+      <span class="ticker-pill">Commission tracking</span>
+    </div>
+  </div>
+  <div class="auth-form-side">
+    <div class="auth-card">
+      <div class="role-switch">
+        <a href="{{ url_for('login') }}">Seller</a>
+        <a href="{{ url_for('influencer_login') }}" class="active">Influencer</a>
+      </div>
+      <div class="eyebrow">Creator access</div>
+      <h1>Log in to your studio</h1>
+      <p class="sub">Manage connected accounts and your AI automation workflow.</p>
+      {% if error %}<div class="error-banner">{{ error }}</div>{% endif %}
+      <form method="POST">
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="you@creator.com" required autofocus>
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" placeholder="••••••••" required>
+        </div>
+        <button class="btn btn-primary" type="submit">Log in</button>
+      </form>
+      <div class="auth-foot">New creator? <a href="{{ url_for('influencer_register') }}">Set up your studio</a></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

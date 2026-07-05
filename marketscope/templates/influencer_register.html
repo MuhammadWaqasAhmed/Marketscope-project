@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Set up your studio · MarketScope</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="auth-shell influencer">
+  <div class="auth-art">
+    <div class="brand"><span class="dot"></span> MarketScope <span style="color:var(--pink);font-size:13px;font-weight:600;">/ Creators</span></div>
+    <div class="pitch">
+      <h2>Your content, matched to what's actually selling.</h2>
+      <p>Tell us your niche once. MarketScope's AI keeps surfacing the right trending products and drafts the content workflow around them.</p>
+    </div>
+  </div>
+  <div class="auth-form-side">
+    <div class="auth-card">
+      <div class="role-switch">
+        <a href="{{ url_for('login') }}">Seller</a>
+        <a href="{{ url_for('influencer_login') }}" class="active">Influencer</a>
+      </div>
+      <div class="eyebrow">Creator access</div>
+      <h1>Set up your studio</h1>
+      <p class="sub">Free to join. Connect accounts in the next step.</p>
+      {% if error %}<div class="error-banner">{{ error }}</div>{% endif %}
+      <form method="POST">
+        <div class="field">
+          <label for="name">Full name</label>
+          <input id="name" name="name" type="text" placeholder="Alex Rivera" required autofocus>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="you@creator.com" required>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="primary_platform">Primary platform</label>
+            <select id="primary_platform" name="primary_platform">
+              <option>TikTok</option><option>Instagram</option><option>YouTube</option><option>X</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="handle">Handle</label>
+            <input id="handle" name="handle" type="text" placeholder="@yourhandle">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="followers">Followers</label>
+            <input id="followers" name="followers" type="number" placeholder="25000" min="0">
+          </div>
+          <div class="field">
+            <label for="niche">Niche</label>
+            <input id="niche" name="niche" type="text" placeholder="Beauty, tech, fitness...">
+          </div>
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" placeholder="At least 8 characters" minlength="8" required>
+        </div>
+        <button class="btn btn-primary" type="submit">Create studio account</button>
+      </form>
+      <div class="auth-foot">Already have a studio? <a href="{{ url_for('influencer_login') }}">Log in</a></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
